@@ -1,5 +1,5 @@
 {
-    "extends": ["prettier", "react"],
+    "extends": ["prettier"],
     "plugins": ["react-hooks", "prettier", "jest"],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
@@ -34,7 +34,7 @@
             "modules": true
         }
     },
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "env": {
         "browser": true,
         "jest/globals": true
