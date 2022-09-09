@@ -1,6 +1,6 @@
 {
     "extends": ["prettier"],
-    "plugins": ["react-hooks", "prettier", "jest"],
+    "plugins": ["react", "react-hooks", "prettier", "jest"],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
@@ -32,9 +32,10 @@
         "ecmaFeatures": {
             "jsx": true,
             "modules": true
-        }
+        },
+        "sourceType": "module",
+        "ecmaVersion": 2020
     },
-    "parser": "@babel/eslint-parser",
     "env": {
         "browser": true,
         "jest/globals": true
