@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, CharacterCard, FavoritesBar } from '../../components';
+import { useFavorites } from '../../hooks';
 import { loadStaff } from '../../store/actions/staff';
 import { loadStudents } from '../../store/actions/students';
+import { addFavorite, removeFavorite } from '../../store/actions/favorites';
 import {
     StyledButtonsWrapper,
     StyledCharactersWrapper,
@@ -15,53 +17,31 @@ import {
     StyledSelectFilterLabel,
 } from './styled';
 
-// favorites dummy
-const favorites = [
-    {
-        id: 1,
-        name: 'Luna Lovegood',
-        image: 'http://hp-api.herokuapp.com/images/mcgonagall.jpg',
-    },
-    {
-        id: 2,
-        name: 'Luna Lovegood',
-        image: 'http://hp-api.herokuapp.com/images/mcgonagall.jpg',
-    },
-    {
-        id: 3,
-        name: 'Luna Lovegood',
-        image: 'http://hp-api.herokuapp.com/images/mcgonagall.jpg',
-    },
-    {
-        id: 4,
-        name: 'Luna Lovegood',
-        image: 'http://hp-api.herokuapp.com/images/mcgonagall.jpg',
-    },
-    {
-        id: 5,
-        name: 'Luna Lovegood',
-        image: 'http://hp-api.herokuapp.com/images/mcgonagall.jpg',
-    },
-];
-
 const HomePage = () => {
     const dispatch = useDispatch();
 
     const characters = useSelector((state) => state.characters.characters);
+    const students = useSelector((state) => state.students.students);
+    const staff = useSelector((state) => state.staff.staff);
+    const favoritesIds = useSelector((state) => state.favorites.favorites);
+
+    const favorites = useFavorites(favoritesIds, students, staff);
 
     console.log(characters);
+    console.log(favorites);
 
     useEffect(() => {
         // load students on load
         dispatch(loadStudents());
     }, []);
 
-    const handleOnAddFavorites = () => {
-        console.log('add favorites');
+    const handleOnAddCharacter = () => {
+        console.log('add character');
     };
 
     const handleOnDeleteFavorite = (favoriteId) => {
-        console.log('delete favorite ' + favoriteId);
+        // remove favorite id from list
+        dispatch(removeFavorite(favoriteId));
     };
 
     const handleOnShowStudents = () => {
@@ -74,6 +54,11 @@ const HomePage = () => {
         dispatch(loadStaff());
     };
 
+    const handleOnAddFavorite = (favoriteId) => {
+        // add favorite id to list
+        dispatch(addFavorite(favoriteId));
+    };
+
     return (
         <>
             <StyledHeadingContainer>
@@ -83,8 +68,8 @@ const HomePage = () => {
                         <div className="d-flex justify-content-end">
                             <FavoritesBar
                                 favorites={favorites}
-                                onAddFavorites={handleOnAddFavorites}
                                 onDeleteFavorite={handleOnDeleteFavorite}
+                                onAddCharacter={handleOnAddCharacter}
                             />
                         </div>
                     </StyledHeadingWrapper>
@@ -119,19 +104,26 @@ const HomePage = () => {
                 <StyledContainer>
                     <StyledCharactersWrapper>
                         {characters.map((character, index) => (
-                            <CharacterCard key={index} character={character} />
+                            <CharacterCard
+                                key={index}
+                                character={character}
+                                favoritesIds={favoritesIds}
+                                onAddFavorite={handleOnAddFavorite}
+                                onRemoveFavorite={handleOnDeleteFavorite}
+                            />
                         ))}
                     </StyledCharactersWrapper>
                 </StyledContainer>
             )}
 
+            {/* footer */}
             <StyledFooterContainer>
                 <StyledContainer>
                     <div className="d-flex justify-content-center">
                         <FavoritesBar
                             favorites={favorites}
-                            onAddFavorites={handleOnAddFavorites}
                             onDeleteFavorite={handleOnDeleteFavorite}
+                            onAddCharacter={handleOnAddCharacter}
                         />
                     </div>
                 </StyledContainer>

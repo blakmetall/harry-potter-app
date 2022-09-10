@@ -8,8 +8,8 @@ const BookmarkOutlineIcon = ({ size, style, className }) => {
             <svg
                 className={className}
                 style={style}
-                width="22"
-                height="24"
+                width="20"
+                height="20"
                 viewBox="0 0 22 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

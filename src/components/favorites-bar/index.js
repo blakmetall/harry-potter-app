@@ -4,7 +4,7 @@ import { BookmarkFillIcon, UserFillIcon } from '../icons';
 import FavoriteItem from './favorite-item';
 import { StyledAdd, StyledFavorites, StyledFavoritesBar, StyledFavoritesBarContainer, StyledFavoritesDropdown } from './styled';
 
-const FavoritesBar = ({ favorites, onAddFavorites, onDeleteFavorite }) => {
+const FavoritesBar = ({ favorites, onAddCharacter, onDeleteFavorite }) => {
     const [showFavorites, setShowFavorites] = useState(false);
 
     const totalFavorites = favorites.length;
@@ -13,8 +13,8 @@ const FavoritesBar = ({ favorites, onAddFavorites, onDeleteFavorite }) => {
         setShowFavorites(!showFavorites);
     };
 
-    const handleOnAddFavorites = () => {
-        onAddFavorites();
+    const handleOnAddCharacter = () => {
+        onAddCharacter();
     };
 
     return (
@@ -27,7 +27,7 @@ const FavoritesBar = ({ favorites, onAddFavorites, onDeleteFavorite }) => {
                         <BookmarkFillIcon />
                     </StyledFavorites>
 
-                    <StyledAdd onClick={handleOnAddFavorites}>
+                    <StyledAdd onClick={handleOnAddCharacter}>
                         <div className="pe-1">Agregar</div>
                         <UserFillIcon />
                     </StyledAdd>
@@ -43,6 +43,7 @@ const FavoritesBar = ({ favorites, onAddFavorites, onDeleteFavorite }) => {
                             onDeleteFavorite={onDeleteFavorite}
                         />
                     ))}
+                    {favorites.length === 0 && <div>No tienes favoritos agregados</div>}
                 </StyledFavoritesDropdown>
             </StyledFavoritesBarContainer>
         </>
@@ -51,13 +52,13 @@ const FavoritesBar = ({ favorites, onAddFavorites, onDeleteFavorite }) => {
 
 FavoritesBar.propTypes = {
     favorites: PropTypes.array,
-    onAddFavorites: PropTypes.func,
+    onAddCharacter: PropTypes.func,
     onDeleteFavorite: PropTypes.func,
 };
 
 FavoritesBar.defaultProps = {
     favorites: [],
-    onAddFavorites: () => {},
+    onAddCharacter: () => {},
     onDeleteFavorite: () => {},
 };
 

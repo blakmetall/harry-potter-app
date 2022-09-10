@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useCharacterStatus } from './hooks';
-import { BookmarkOutlineIcon } from '../icons';
+import { useCharacterStatus, useIsFavorite } from './hooks';
+import { BookmarkFillIcon, BookmarkOutlineIcon } from '../icons';
 import {
     StyledAliveStatus,
     StyledBookmarkWrapper,
@@ -15,17 +15,21 @@ import {
     StyledName,
 } from './styled';
 
-const CharacterCard = ({ character, onAddFavorite }) => {
+const CharacterCard = ({ character, favoritesIds, onAddFavorite, onRemoveFavorite }) => {
     const { id, image, hairColour, eyeColour, dateOfBirth, gender, alive, name, hogwartsStudent, hogwartsStaff, house } =
         character;
 
     const characterStatus = useCharacterStatus(hogwartsStudent, hogwartsStaff);
+    const isFavorite = useIsFavorite(id, favoritesIds);
 
     const aliveStatus = alive ? 'Vivo' : 'Finado';
 
     const handleOnAddFavorite = () => {
-        console.log('add favorite by id: ' + id);
-        onAddFavorite(id);
+        if (isFavorite) {
+            onRemoveFavorite(id);
+        } else {
+            onAddFavorite(id);
+        }
     };
 
     return (
@@ -46,7 +50,8 @@ const CharacterCard = ({ character, onAddFavorite }) => {
                     </StyledAliveStatus>
 
                     <StyledBookmarkWrapper onClick={handleOnAddFavorite}>
-                        <BookmarkOutlineIcon />
+                        {isFavorite && <BookmarkFillIcon color={'#333333'} />}
+                        {!isFavorite && <BookmarkOutlineIcon />}
                     </StyledBookmarkWrapper>
                 </StyledDataHeading>
 
@@ -73,12 +78,16 @@ const CharacterCard = ({ character, onAddFavorite }) => {
 
 CharacterCard.propTypes = {
     character: PropTypes.object,
+    favoritesIds: PropTypes.array,
     onAddFavorite: PropTypes.func,
+    onRemoveFavorite: PropTypes.func,
 };
 
 CharacterCard.defaultProps = {
     character: {},
+    favoritesIds: [],
     onAddFavorite: () => {},
+    onRemoveFavorite: () => {},
 };
 
 export default CharacterCard;

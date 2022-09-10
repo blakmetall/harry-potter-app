@@ -47,24 +47,30 @@ const StyledFavoritesBarContainer = styled.div`
 
 const StyledFavoritesDropdown = styled.div`
     position: absolute;
-    top: 25px;
+    top: 26px;
     left: 0;
     background: #6b63b5;
     padding: 15px 15px 15px 15px;
     width: 100%;
-    border-radius: 0 0 8px 8px;
+    border-radius: 0 0 7px 7px;
     display: none;
-
-    @media (max-width: 767px) {
-        top: ${(props) => '-' + (props.totalFavorites * 49 + 20) + 'px'};
-        border-radius: 8px 8px 0 0;
-    }
 
     ${(props) =>
         props.showFavorites &&
         `
         display:block;
     `}
+
+    @media (max-width: 767px) {
+        top: ${(props) => '-' + (props.totalFavorites * 49 + 20) + 'px'};
+        border-radius: 8px 8px 0 0;
+
+        ${(props) =>
+            props.totalFavorites === 0 &&
+            `
+            top: -45px;
+        `}
+    }
 `;
 
 export { StyledAdd, StyledFavorites, StyledFavoritesBar, StyledFavoritesBarContainer, StyledFavoritesDropdown };
