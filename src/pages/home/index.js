@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, CharacterCard, FavoritesBar } from '../../components';
+import { Button, CharacterCard, FavoritesBar, Input, Modal } from '../../components';
+import NewCharacterForm from './form';
 import { useFavorites } from '../../hooks';
 import { loadStaff } from '../../store/actions/staff';
 import { loadStudents } from '../../store/actions/students';
@@ -18,6 +19,8 @@ import {
 } from './styled';
 
 const HomePage = () => {
+    const [showModalForm, setShowModalForm] = useState(false);
+
     const dispatch = useDispatch();
 
     const characters = useSelector((state) => state.characters.characters);
@@ -27,16 +30,13 @@ const HomePage = () => {
 
     const favorites = useFavorites(favoritesIds, students, staff);
 
-    console.log(characters);
-    console.log(favorites);
-
     useEffect(() => {
         // load students on load
         dispatch(loadStudents());
     }, []);
 
     const handleOnAddCharacter = () => {
-        console.log('add character');
+        setShowModalForm(!showModalForm);
     };
 
     const handleOnDeleteFavorite = (favoriteId) => {
@@ -128,6 +128,13 @@ const HomePage = () => {
                     </div>
                 </StyledContainer>
             </StyledFooterContainer>
+
+            {/* modal */}
+            <Modal showIf={showModalForm} onHide={() => setShowModalForm(false)}>
+                <div>
+                    <NewCharacterForm onCloseForm={() => setShowModalForm(false)} />
+                </div>
+            </Modal>
         </>
     );
 };
