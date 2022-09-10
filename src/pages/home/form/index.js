@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import nextId from 'react-id-generator';
 import { Button, Input } from '../../../components';
 import { CloseIcon } from '../../../components/icons';
 import { validateCharacter } from './helpers';
@@ -13,6 +14,8 @@ const NewCharacterForm = ({ onCloseForm }) => {
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [hairColour, setHairColour] = useState('');
     const [eyeColour, setEyeColour] = useState('');
+
+    const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -27,6 +30,7 @@ const NewCharacterForm = ({ onCloseForm }) => {
         e.preventDefault();
 
         const item = {
+            id: nextId(),
             name: name.trim(),
             dateOfBirth: dateOfBirth.trim(),
             hairColour: hairColour.trim(),
@@ -34,6 +38,7 @@ const NewCharacterForm = ({ onCloseForm }) => {
         };
 
         dispatch(addCharacter(item));
+        setShowSuccessMsg(true);
         clearForm();
     };
 
@@ -101,7 +106,7 @@ const NewCharacterForm = ({ onCloseForm }) => {
                         </Col>
                     </Row>
 
-                    <Row>
+                    <Row className="mb-3">
                         <Col className="d-flex justify-content-center">
                             {/* submit */}
                             <Button
@@ -112,6 +117,12 @@ const NewCharacterForm = ({ onCloseForm }) => {
                             />
                         </Col>
                     </Row>
+
+                    {showSuccessMsg && (
+                        <Row className="mb-3">
+                            <Col className="d-flex justify-content-center">Nuevo caracter agregado</Col>
+                        </Row>
+                    )}
                 </StyledFormContainer>
             </Form>
         </>

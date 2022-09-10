@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, CharacterCard, FavoritesBar, Input, Modal } from '../../components';
+import { Button, CharacterCard, FavoritesBar, Modal } from '../../components';
 import NewCharacterForm from './form';
-import { useFavorites } from '../../hooks';
+import { useAllCharacters, useFavorites } from '../../hooks';
 import { loadStaff } from '../../store/actions/staff';
 import { loadStudents } from '../../store/actions/students';
 import { addFavorite, removeFavorite } from '../../store/actions/favorites';
@@ -24,11 +24,13 @@ const HomePage = () => {
     const dispatch = useDispatch();
 
     const characters = useSelector((state) => state.characters.characters);
+    const newCharacters = useSelector((state) => state.characters.newCharacters);
     const students = useSelector((state) => state.students.students);
     const staff = useSelector((state) => state.staff.staff);
     const favoritesIds = useSelector((state) => state.favorites.favorites);
 
-    const favorites = useFavorites(favoritesIds, students, staff);
+    const favorites = useFavorites(favoritesIds, students, staff, newCharacters);
+    const allCharacters = useAllCharacters(characters, newCharacters);
 
     useEffect(() => {
         // load students on load
@@ -100,10 +102,10 @@ const HomePage = () => {
             </StyledHeadingContainer>
 
             {/* characters list */}
-            {characters && characters.length && (
+            {allCharacters && allCharacters.length && (
                 <StyledContainer>
                     <StyledCharactersWrapper>
-                        {characters.map((character, index) => (
+                        {allCharacters.map((character, index) => (
                             <CharacterCard
                                 key={index}
                                 character={character}

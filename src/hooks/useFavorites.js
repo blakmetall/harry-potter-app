@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-export default function useFavorites(favoritesIds, students, staff) {
+export default function useFavorites(favoritesIds, students, staff, newCharacters) {
     return useMemo(() => {
         const favorites = [];
 
@@ -20,8 +20,15 @@ export default function useFavorites(favoritesIds, students, staff) {
                     favorites.push(staff[j]);
                 }
             }
+
+            // search in new added characters
+            for (let j = 0; j < newCharacters.length; j++) {
+                if (newCharacters[j].id === favoriteId) {
+                    favorites.push(newCharacters[j]);
+                }
+            }
         }
 
         return favorites;
-    }, [favoritesIds, students, staff]);
+    }, [favoritesIds, students, staff, newCharacters]);
 }

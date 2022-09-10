@@ -5,6 +5,7 @@ import { getUniqueId } from '../../helpers';
 import { StyledFormInput, StyledFormLabel } from './styled';
 
 function Input({ id, value, name, type, label, placeholder, required, onChange, className, disabled }) {
+    // eslint-disable-next-line
     const [inputType, setInputType] = useState(type);
 
     const inputId = id || getUniqueId('input');

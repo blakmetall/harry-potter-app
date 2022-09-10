@@ -10,10 +10,7 @@ export default function charactersReducer(state = initialState, action) {
         case charactersTypes.SET_CHARACTERS:
             return { ...state, characters: action.payload };
         case charactersTypes.ADD_NEW_CHARACTER:
-            const oldCharacters = state.characters.newCharacters ? state.characters.newCharacters : [];
-            oldCharacters.push(action.payload);
-
-            return { ...state, newCharacters: oldCharacters };
+            return { ...state, newCharacters: [...state.newCharacters, action.payload] };
         default:
             return state;
     }
