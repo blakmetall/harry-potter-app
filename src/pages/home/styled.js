@@ -71,7 +71,7 @@ const StyledLogoWrapper = styled.div`
     }
 `;
 
-const StyledMembersWrapper = styled.div`
+const StyledCharactersWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -106,6 +106,6 @@ export {
     StyledHeadingWrapper,
     StyledLogo,
     StyledLogoWrapper,
-    StyledMembersWrapper,
+    StyledCharactersWrapper,
     StyledSelectFilterLabel,
 };

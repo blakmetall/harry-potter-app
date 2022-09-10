@@ -1,12 +1,12 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { save, load } from 'redux-localstorage-simple';
-import { membersReducer, staffReducer, studentsReducer } from './reducers';
+import { charactersReducer, staffReducer, studentsReducer } from './reducers';
 
 const middlewares = [thunk.withExtraArgument(), save()];
 
 const reducers = combineReducers({
-    members: membersReducer,
+    characters: charactersReducer,
     staff: staffReducer,
     students: studentsReducer,
 });

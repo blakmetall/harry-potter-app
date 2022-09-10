@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useMemberStatus } from './hooks';
+import { useCharacterStatus } from './hooks';
 import { BookmarkOutlineIcon } from '../icons';
 import {
     StyledAliveStatus,
@@ -15,10 +15,11 @@ import {
     StyledName,
 } from './styled';
 
-const MemberCard = ({ member, onAddFavorite }) => {
-    const { id, image, hairColour, eyeColour, dateOfBirth, gender, alive, name, hogwartsStudent, hogwartsStaff, house } = member;
+const CharacterCard = ({ character, onAddFavorite }) => {
+    const { id, image, hairColour, eyeColour, dateOfBirth, gender, alive, name, hogwartsStudent, hogwartsStaff, house } =
+        character;
 
-    const memberStatus = useMemberStatus(hogwartsStudent, hogwartsStaff);
+    const characterStatus = useCharacterStatus(hogwartsStudent, hogwartsStaff);
 
     const aliveStatus = alive ? 'Vivo' : 'Finado';
 
@@ -41,7 +42,7 @@ const MemberCard = ({ member, onAddFavorite }) => {
                 {/* alive status and bookmark */}
                 <StyledDataHeading>
                     <StyledAliveStatus>
-                        {aliveStatus} / {memberStatus}
+                        {aliveStatus} / {characterStatus}
                     </StyledAliveStatus>
 
                     <StyledBookmarkWrapper onClick={handleOnAddFavorite}>
@@ -70,14 +71,14 @@ const MemberCard = ({ member, onAddFavorite }) => {
     );
 };
 
-MemberCard.propTypes = {
-    member: PropTypes.object,
+CharacterCard.propTypes = {
+    character: PropTypes.object,
     onAddFavorite: PropTypes.func,
 };
 
-MemberCard.defaultProps = {
-    member: {},
+CharacterCard.defaultProps = {
+    character: {},
     onAddFavorite: () => {},
 };
 
-export default MemberCard;
+export default CharacterCard;

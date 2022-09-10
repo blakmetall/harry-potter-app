@@ -1,4 +1,4 @@
-import { membersTypes } from '../../types';
+import { charactersTypes } from '../../types';
 
 const loadStaff = () => {
     return function (dispatch) {
@@ -7,11 +7,9 @@ const loadStaff = () => {
         fetch(staffUrl)
             .then((response) => response.json())
             .then((data) => {
-                console.log('loading staff from api');
-
-                // set members from staff
+                // set characters from staff
                 dispatch({
-                    type: membersTypes.SET_MEMBERS,
+                    type: charactersTypes.SET_CHARACTERS,
                     payload: data,
                 });
             })

@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, FavoritesBar, MemberCard } from '../../components';
+import { Button, CharacterCard, FavoritesBar } from '../../components';
 import { loadStaff } from '../../store/actions/staff';
 import { loadStudents } from '../../store/actions/students';
 import {
     StyledButtonsWrapper,
+    StyledCharactersWrapper,
     StyledContainer,
     StyledFooterContainer,
     StyledHeadingContainer,
     StyledHeadingWrapper,
     StyledLogo,
     StyledLogoWrapper,
-    StyledMembersWrapper,
     StyledSelectFilterLabel,
 } from './styled';
 
@@ -47,9 +47,9 @@ const favorites = [
 const HomePage = () => {
     const dispatch = useDispatch();
 
-    const members = useSelector((state) => state.members.members);
+    const characters = useSelector((state) => state.characters.characters);
 
-    console.log(members);
+    console.log(characters);
 
     useEffect(() => {
         // load students on load
@@ -69,7 +69,7 @@ const HomePage = () => {
         dispatch(loadStudents());
     };
 
-    const handleOnShowStaff = (favoriteId) => {
+    const handleOnShowStaff = () => {
         // load staff
         dispatch(loadStaff());
     };
@@ -114,14 +114,14 @@ const HomePage = () => {
                 </StyledContainer>
             </StyledHeadingContainer>
 
-            {/* members list */}
-            {members.length && (
+            {/* characters list */}
+            {characters && characters.length && (
                 <StyledContainer>
-                    <StyledMembersWrapper>
-                        {members.map((member, index) => (
-                            <MemberCard key={index} member={member} />
+                    <StyledCharactersWrapper>
+                        {characters.map((character, index) => (
+                            <CharacterCard key={index} character={character} />
                         ))}
-                    </StyledMembersWrapper>
+                    </StyledCharactersWrapper>
                 </StyledContainer>
             )}
 
