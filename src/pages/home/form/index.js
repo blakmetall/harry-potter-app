@@ -14,6 +14,8 @@ const NewCharacterForm = ({ onCloseForm }) => {
     const [dateOfBirth, setDateOfBirth] = useState('');
     const [hairColour, setHairColour] = useState('');
     const [eyeColour, setEyeColour] = useState('');
+    const [gender, setGender] = useState('female');
+    const [position, setPosition] = useState('student');
 
     const [showSuccessMsg, setShowSuccessMsg] = useState(false);
 
@@ -24,6 +26,8 @@ const NewCharacterForm = ({ onCloseForm }) => {
         setDateOfBirth('');
         setHairColour('');
         setEyeColour('');
+        setGender('female');
+        setPosition('student');
     };
 
     const handleOnSubmit = async (e) => {
@@ -31,10 +35,14 @@ const NewCharacterForm = ({ onCloseForm }) => {
 
         const item = {
             id: getUniqueId(),
+            alive: true,
             name: name.trim(),
             dateOfBirth: dateOfBirth.trim(),
             hairColour: hairColour.trim(),
             eyeColour: eyeColour.trim(),
+            gender: gender,
+            hogwartsStudent: position === 'student',
+            hogwartsStaff: position === 'staff',
             isNewCharacter: true,
         };
 
@@ -86,8 +94,8 @@ const NewCharacterForm = ({ onCloseForm }) => {
                     </Row>
 
                     {/* input fields */}
-                    <Row className="mb-3">
-                        <Col className="flex-lg-column">
+                    <Row className="mb-5">
+                        <Col className="flex-row flex-lg-column">
                             {/* name */}
                             <Input
                                 label="Color de ojos"
@@ -96,7 +104,7 @@ const NewCharacterForm = ({ onCloseForm }) => {
                                 required
                             />
                         </Col>
-                        <Col className="flex-lg-column">
+                        <Col className="flex-row flex-lg-column">
                             {/* name */}
                             <Input
                                 label="Color de pelo"
@@ -104,6 +112,66 @@ const NewCharacterForm = ({ onCloseForm }) => {
                                 onChange={(e) => setHairColour(e.target.value)}
                                 required
                             />
+                        </Col>
+                    </Row>
+
+                    {/* input fields */}
+                    <Row className="mb-5" style={{ fontSize: '16px' }}>
+                        <Col className="flex-lg-column mb-3 mb-sm-0">
+                            <div className="d-flex justify-content-between">
+                                <div className="d-flex align-content-center">
+                                    <Form.Check
+                                        id="femaleInput"
+                                        type="radio"
+                                        value="female"
+                                        name="gender"
+                                        checked={gender === 'female'}
+                                        onChange={(e) => setGender(e.target.value)}
+                                        className="me-2"
+                                    />
+                                    <label htmlFor="femaleInput">Mujer</label>
+                                </div>
+                                <div className="d-flex align-content-center">
+                                    <Form.Check
+                                        id="maleInput"
+                                        type="radio"
+                                        value="male"
+                                        name="gender"
+                                        checked={gender === 'male'}
+                                        onChange={(e) => setGender(e.target.value)}
+                                        className="me-2"
+                                    />
+                                    <label htmlFor="maleInput">Hombre</label>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col className="flex-lg-column">
+                            <div className="d-flex justify-content-between">
+                                <div className="d-flex align-content-center">
+                                    <Form.Check
+                                        id="studentInput"
+                                        type="radio"
+                                        value="student"
+                                        name="position"
+                                        checked={position === 'student'}
+                                        onChange={(e) => setPosition(e.target.value)}
+                                        className="me-2"
+                                    />
+                                    <label htmlFor="studentInput">Estudiante</label>
+                                </div>
+                                <div className="d-flex align-content-center">
+                                    <Form.Check
+                                        id="staffInput"
+                                        type="radio"
+                                        value="staff"
+                                        name="position"
+                                        checked={position === 'staff'}
+                                        onChange={(e) => setPosition(e.target.value)}
+                                        className="me-2"
+                                    />
+                                    <label htmlFor="staffInput">Staff</label>
+                                </div>
+                            </div>
                         </Col>
                     </Row>
 

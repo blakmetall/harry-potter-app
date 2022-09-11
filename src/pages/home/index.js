@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, CharacterCard, FavoritesBar, Modal } from '../../components';
 import NewCharacterForm from './form';
-import { useAllCharacters, useFavorites } from '../../hooks';
+import { useAllCharacters, useFavorites, useFilteredNewCharacters } from '../../hooks';
 import { loadStaff } from '../../store/actions/staff';
 import { loadStudents } from '../../store/actions/students';
 import { addFavorite, removeFavorite } from '../../store/actions/favorites';
@@ -20,6 +20,7 @@ import {
 import { loadNewCharacters, removeNewCharacter } from '../../store/actions/characters';
 
 const HomePage = () => {
+    const [showingStudents, setShowingStudents] = useState(true);
     const [showModalForm, setShowModalForm] = useState(false);
 
     const dispatch = useDispatch();
@@ -31,7 +32,9 @@ const HomePage = () => {
     const favoritesIds = useSelector((state) => state.favorites.favorites);
 
     const favorites = useFavorites(favoritesIds, students, staff, newCharacters);
-    const allCharacters = useAllCharacters(characters, newCharacters);
+
+    const filteredNewCharacters = useFilteredNewCharacters(newCharacters, showingStudents);
+    const allCharacters = useAllCharacters(characters, filteredNewCharacters);
 
     useEffect(() => {
         // load students on load
@@ -55,11 +58,13 @@ const HomePage = () => {
     const handleOnShowStudents = () => {
         // load students
         dispatch(loadStudents());
+        setShowingStudents(true);
     };
 
     const handleOnShowStaff = () => {
         // load staff
         dispatch(loadStaff());
+        setShowingStudents(false);
     };
 
     const handleOnAddFavorite = (favoriteId) => {
