@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Form, Row } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import nextId from 'react-id-generator';
+import { getUniqueId } from '../../../helpers';
 import { Button, Input } from '../../../components';
 import { CloseIcon } from '../../../components/icons';
 import { validateCharacter } from './helpers';
@@ -23,18 +23,19 @@ const NewCharacterForm = ({ onCloseForm }) => {
         setName('');
         setDateOfBirth('');
         setHairColour('');
-        setEyeColour();
+        setEyeColour('');
     };
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
 
         const item = {
-            id: nextId(),
+            id: getUniqueId(),
             name: name.trim(),
             dateOfBirth: dateOfBirth.trim(),
             hairColour: hairColour.trim(),
             eyeColour: eyeColour.trim(),
+            isNewCharacter: true,
         };
 
         dispatch(addCharacter(item));

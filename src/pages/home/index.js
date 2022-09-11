@@ -17,6 +17,7 @@ import {
     StyledLogoWrapper,
     StyledSelectFilterLabel,
 } from './styled';
+import { loadNewCharacters, removeNewCharacter } from '../../store/actions/characters';
 
 const HomePage = () => {
     const [showModalForm, setShowModalForm] = useState(false);
@@ -35,6 +36,11 @@ const HomePage = () => {
     useEffect(() => {
         // load students on load
         dispatch(loadStudents());
+
+        // load new characters
+        dispatch(loadNewCharacters());
+
+        // eslint-disable-next-line
     }, []);
 
     const handleOnAddCharacter = () => {
@@ -59,6 +65,10 @@ const HomePage = () => {
     const handleOnAddFavorite = (favoriteId) => {
         // add favorite id to list
         dispatch(addFavorite(favoriteId));
+    };
+
+    const handleOnRemoveCharacter = (newCharacterId) => {
+        dispatch(removeNewCharacter(newCharacterId));
     };
 
     return (
@@ -112,6 +122,7 @@ const HomePage = () => {
                                 favoritesIds={favoritesIds}
                                 onAddFavorite={handleOnAddFavorite}
                                 onRemoveFavorite={handleOnDeleteFavorite}
+                                onRemoveCharacter={handleOnRemoveCharacter}
                             />
                         ))}
                     </StyledCharactersWrapper>

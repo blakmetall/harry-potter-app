@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useCharacterStatus, useIsFavorite } from './hooks';
-import { BookmarkFillIcon, BookmarkOutlineIcon } from '../icons';
+import { BookmarkFillIcon, BookmarkOutlineIcon, TrashIcon } from '../icons';
 import {
     StyledAliveStatus,
     StyledBookmarkWrapper,
@@ -13,11 +13,24 @@ import {
     StyledImageWrapper,
     StyledInfoRow,
     StyledName,
+    StyledTrashWrapper,
 } from './styled';
 
-const CharacterCard = ({ character, favoritesIds, onAddFavorite, onRemoveFavorite }) => {
-    const { id, image, hairColour, eyeColour, dateOfBirth, gender, alive, name, hogwartsStudent, hogwartsStaff, house } =
-        character;
+const CharacterCard = ({ character, favoritesIds, onAddFavorite, onRemoveFavorite, onRemoveCharacter }) => {
+    const {
+        id,
+        name,
+        hairColour,
+        eyeColour,
+        dateOfBirth,
+        gender,
+        alive,
+        image,
+        hogwartsStudent,
+        hogwartsStaff,
+        house,
+        isNewCharacter,
+    } = character;
 
     const characterStatus = useCharacterStatus(hogwartsStudent, hogwartsStaff);
     const isFavorite = useIsFavorite(id, favoritesIds);
@@ -30,6 +43,10 @@ const CharacterCard = ({ character, favoritesIds, onAddFavorite, onRemoveFavorit
         } else {
             onAddFavorite(id);
         }
+    };
+
+    const handleOnRemoveCharacter = () => {
+        onRemoveCharacter(id);
     };
 
     return (
@@ -49,10 +66,24 @@ const CharacterCard = ({ character, favoritesIds, onAddFavorite, onRemoveFavorit
                         {aliveStatus} / {characterStatus}
                     </StyledAliveStatus>
 
-                    <StyledBookmarkWrapper onClick={handleOnAddFavorite}>
-                        {isFavorite && <BookmarkFillIcon color={'#333333'} />}
-                        {!isFavorite && <BookmarkOutlineIcon />}
-                    </StyledBookmarkWrapper>
+                    <div className="d-flex align-items-center justify-content-between">
+                        {/* delete element if is new character added */}
+                        {isNewCharacter && (
+                            <div className="me-2">
+                                <StyledTrashWrapper onClick={handleOnRemoveCharacter}>
+                                    <TrashIcon color={'#999999'} />
+                                </StyledTrashWrapper>
+                            </div>
+                        )}
+
+                        <div>
+                            {/* bookmar icon */}
+                            <StyledBookmarkWrapper onClick={handleOnAddFavorite}>
+                                {isFavorite && <BookmarkFillIcon color={'#333333'} />}
+                                {!isFavorite && <BookmarkOutlineIcon />}
+                            </StyledBookmarkWrapper>
+                        </div>
+                    </div>
                 </StyledDataHeading>
 
                 {/* name */}
@@ -81,6 +112,7 @@ CharacterCard.propTypes = {
     favoritesIds: PropTypes.array,
     onAddFavorite: PropTypes.func,
     onRemoveFavorite: PropTypes.func,
+    onRemoveCharacter: PropTypes.func,
 };
 
 CharacterCard.defaultProps = {
@@ -88,6 +120,7 @@ CharacterCard.defaultProps = {
     favoritesIds: [],
     onAddFavorite: () => {},
     onRemoveFavorite: () => {},
+    onRemoveCharacter: () => {},
 };
 
 export default CharacterCard;

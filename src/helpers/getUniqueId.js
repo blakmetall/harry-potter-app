@@ -1,6 +1,5 @@
-let idCounter = 0;
+export default function getUniqueId() {
+    let random = Math.floor(Math.random() * 999999999999) + 1;
 
-export default function getUniqueId(prefix) {
-    idCounter += 1;
-    return prefix ? `${prefix}-${idCounter}` : String(idCounter);
+    return random;
 }

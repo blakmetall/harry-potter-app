@@ -185,6 +185,10 @@ const StyledName = styled.div`
     }
 `;
 
+const StyledTrashWrapper = styled.div`
+    cursor: pointer;
+`;
+
 export {
     StyledAliveStatus,
     StyledBookmarkWrapper,
@@ -196,4 +200,5 @@ export {
     StyledImageWrapper,
     StyledInfoRow,
     StyledName,
+    StyledTrashWrapper,
 };
