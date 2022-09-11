@@ -39,6 +39,7 @@ const StyledCardContainer = styled.div`
     @media (max-width: 767px) {
         margin-bottom: 15px;
         min-height: 0px;
+        border-radius: 6px;
     }
 `;
 
@@ -90,15 +91,22 @@ const StyledImage = styled.div`
     width: 160px;
     height: 160px;
     border-radius: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 
     ${(props) =>
         props.srcUrl &&
         `
-        background: url(${props.srcUrl});
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center center;
+        background-image: url(${props.srcUrl});
+        
     `};
+
+    ${(props) =>
+        !props.srcUrl &&
+        `
+        background-image: url('https://via.placeholder.com/150');
+    `}
 
     @media (max-width: 1115px) {
         width: 120px;

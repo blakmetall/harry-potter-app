@@ -24,5 +24,9 @@
 
 ## Pain point / bugs 
 * tuve problemas inicialmente con las librerías de npm, eso me tomó su buen tiempo al iniciar el proyecto
+    - el problema se dio por un  conflicto de librerías que se tomaban desde una ruta superior,
+      lo solucioné agregando SKIP_PREFLIGHT_CHECK=true al comando de npm start
 * los caracteres tomados de github no tenian id's y tuve que implementar mi propio sistema de id's 
   para controlar los registros por id's al agregar/eliminar favoritos, y al agregar/eliminar nuevos personajes
+    - agregué id's personalizados y aleatorios a los elementos tomados desde la api, así mismo agregué nuevos
+      id's a los nuevos personajes agregados

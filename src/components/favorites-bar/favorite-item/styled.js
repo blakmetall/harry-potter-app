@@ -6,15 +6,22 @@ const StyledFavoriteImgWrapper = styled.div`
     border-radius: 50%;
     margin-right: 12px;
     flex-shrink: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 
     ${(props) =>
         props.srcUrl &&
         `
-        background: url(${props.srcUrl});
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: center center;
+        background-image: url(${props.srcUrl});
+
     `};
+
+    ${(props) =>
+        !props.srcUrl &&
+        `
+        background-image: url('https://via.placeholder.com/150');
+    `}
 `;
 
 const StyledFavoriteName = styled.div`

@@ -14,7 +14,6 @@ const StyledFormLabel = styled(Form.Label)`
     font-size: 14px;
     color: #263238;
     text-transform: uppercase;
-    padding-bottom: 0px;
     margin-bottom: 6px !important;
 `;
 

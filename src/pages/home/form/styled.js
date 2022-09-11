@@ -17,4 +17,11 @@ const StyledFormTitle = styled.div`
     }
 `;
 
-export { StyledCloseIconWrapper, StyledFormContainer, StyledFormTitle };
+const StyledHouseLabel = styled.div`
+    font-size: 14px;
+    color: #263238;
+    text-transform: uppercase;
+    margin-bottom: 6px !important;
+`;
+
+export { StyledCloseIconWrapper, StyledFormContainer, StyledFormTitle, StyledHouseLabel };
