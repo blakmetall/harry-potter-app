@@ -7,6 +7,7 @@
 * abrir url de desarrollo en http://localhost:3000/
 * url de proyecto en netlify: https://main--elaborate-faloodeh-7793bc.netlify.app/ 
     - la funcionalidad de agregar personaje no funciona a menos que se ejecute el servidor de json-server local
+* "npm test" para ejecutar las pruebas unitarias
 
 ## Que es lo que más me gustó del desarrollo
 * fue un proyecto entretenido debido a que use muchas cosas que me gustan de reactjs
@@ -30,3 +31,6 @@
   para controlar los registros por id's al agregar/eliminar favoritos, y al agregar/eliminar nuevos personajes
     - agregué id's personalizados y aleatorios a los elementos tomados desde la api, así mismo agregué nuevos
       id's a los nuevos personajes agregados
+* tuve dificultades con las librerías para las pruebas unitarias, esto debido a que yo usaba jest junto con enzyme y otras
+  librerías que ya están 'deprecated' para realizar estas pruebas, y en react 18 ya no están disponibles esas librerías por 
+  lo que tuve que buscar alternativas

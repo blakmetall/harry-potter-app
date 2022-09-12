@@ -14,7 +14,9 @@ const loadNewCharacters = () => {
             return;
         }
 
-        fetch('http://localhost:8000/newCharacters')
+        const newCharacterUrl = 'http://localhost:8000/newCharacters';
+
+        fetch(newCharacterUrl)
             .then((response) => response.json())
             .then((data) => {
                 // set new characters from json-server
@@ -23,7 +25,9 @@ const loadNewCharacters = () => {
                     payload: data,
                 });
             })
-            .catch();
+            .catch((err) => {
+                console.log(err);
+            });
     };
 };
 

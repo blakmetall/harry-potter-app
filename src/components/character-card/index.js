@@ -70,7 +70,7 @@ const CharacterCard = ({ character, favoritesIds, onAddFavorite, onRemoveFavorit
                         {/* delete element if is new character added */}
                         {isNewCharacter && (
                             <div className="me-2">
-                                <StyledTrashWrapper onClick={handleOnRemoveCharacter}>
+                                <StyledTrashWrapper data-testid="trashWrapper" onClick={handleOnRemoveCharacter}>
                                     <TrashIcon color={'#999999'} />
                                 </StyledTrashWrapper>
                             </div>

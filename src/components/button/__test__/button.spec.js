@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, screen, fireEvent, getNodeText } from '@testing-library/react';
+import { render, fireEvent, getNodeText } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import Button from '..';
 
 describe('<Button />', () => {
@@ -7,6 +8,11 @@ describe('<Button />', () => {
         const { container } = render(<Button label="Click me" />);
         const labelText = getNodeText(container.querySelector('button'));
         expect(labelText).toBe('Click me');
+    });
+    it('should have button disabled when disabled prop is added to the component', () => {
+        const component = renderer.create(<Button disabled={true} />);
+        let { props } = component.toJSON();
+        expect(props.disabled).toBe(true);
     });
     it('should call onClick event when Button is clicked', () => {
         const onClickFn = jest.fn();
