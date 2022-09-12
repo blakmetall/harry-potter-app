@@ -31,6 +31,5 @@
   para controlar los registros por id's al agregar/eliminar favoritos, y al agregar/eliminar nuevos personajes
     - agregué id's personalizados y aleatorios a los elementos tomados desde la api, así mismo agregué nuevos
       id's a los nuevos personajes agregados
-* tuve dificultades con las librerías para las pruebas unitarias, esto debido a que yo usaba jest junto con enzyme y otras
-  librerías que ya están 'deprecated' para realizar estas pruebas, y en react 18 ya no están disponibles esas librerías por 
-  lo que tuve que buscar alternativas
+* tuve dificultades con las librerías para las pruebas unitarias, esto debido a que yo llegué a usar jest junto con enzyme y otras
+  librerías que ya están 'deprecated' para realizar pruebas y en react 18 ya no están disponibles lo que tuve que buscar alternativas
