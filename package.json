@@ -36,7 +36,7 @@
     "scripts": {
         "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "jest .src/ --watch --env=jsdom",
         "eject": "react-scripts eject",
         "server": "json-server --watch db.json --port 8000"
     },
@@ -65,6 +65,7 @@
         "eslint-plugin-flowtype": "^8.0.3",
         "eslint-plugin-import": "^2.26.0",
         "jest": "^29.0.3",
+        "jest-environment-jsdom": "^29.0.3",
         "node-sass": "npm:sass",
         "react-test-renderer": "^18.2.0",
         "sass": "^1.54.9"
