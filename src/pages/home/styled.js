@@ -8,6 +8,7 @@ const StyledButtonsWrapper = styled.div`
 
     @media (max-width: 767px) {
         justify-content: space-evenly;
+        margin-bottom: 30px;
     }
 `;
 
