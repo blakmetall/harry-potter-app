@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Button, CharacterCard, FavoritesBar, Modal } from '../../components';
 import NewCharacterForm from './form';
 import { useAllCharacters, useFavorites, useFilteredNewCharacters } from '../../hooks';
@@ -18,143 +18,159 @@ import {
     StyledSelectFilterLabel,
 } from './styled';
 import { loadNewCharacters, removeNewCharacter } from '../../store/actions/characters';
+ 
+class HomePage extends Component {
+    constructor(props){
+        super(props);
+        
+        this.state = {
+            showingStudents: true,
+            showModalForm: false,
+        };
 
-const HomePage = () => {
-    const [showingStudents, setShowingStudents] = useState(true);
-    const [showModalForm, setShowModalForm] = useState(false);
+        this.handleOnAddCharacter = this.handleOnAddCharacter.bind(this);
+        this.handleOnDeleteFavorite = this.handleOnDeleteFavorite.bind(this);
+        this.handleOnShowStudents = this.handleOnShowStudents.bind(this);
+        this.handleOnShowStaff = this.handleOnShowStaff.bind(this);
+        this.handleOnAddFavorite = this.handleOnAddFavorite.bind(this);
+        this.handleOnRemoveCharacter = this.handleOnRemoveCharacter.bind(this);
+    }
 
-    const dispatch = useDispatch();
-
-    const characters = useSelector((state) => state.characters.characters);
-    const newCharacters = useSelector((state) => state.characters.newCharacters);
-    const students = useSelector((state) => state.students.students);
-    const staff = useSelector((state) => state.staff.staff);
-    const favoritesIds = useSelector((state) => state.favorites.favorites);
-
-    const favorites = useFavorites(favoritesIds, students, staff, newCharacters);
-
-    const filteredNewCharacters = useFilteredNewCharacters(newCharacters, showingStudents);
-    const allCharacters = useAllCharacters(characters, filteredNewCharacters);
-
-    useEffect(() => {
+    componentDidMount() {
         // load students on load
-        dispatch(loadStudents());
-
+        this.props.dispatch(loadStudents());
+    
         // load new characters
-        dispatch(loadNewCharacters());
+        this.props.dispatch(loadNewCharacters());
+    }
 
-        // eslint-disable-next-line
-    }, []);
-
-    const handleOnAddCharacter = () => {
-        setShowModalForm(!showModalForm);
+    handleOnAddCharacter = () => {
+        this.setState({showModalForm: !this.state.showModalForm});
     };
 
-    const handleOnDeleteFavorite = (favoriteId) => {
+    handleOnDeleteFavorite = (favoriteId) => {
         // remove favorite id from list
-        dispatch(removeFavorite(favoriteId));
+        this.props.dispatch(removeFavorite(favoriteId));
     };
 
-    const handleOnShowStudents = () => {
+    handleOnShowStudents = () => {
         // load students
-        dispatch(loadStudents());
-        setShowingStudents(true);
+        this.props.dispatch(loadStudents());
+
+        this.setState({showingStudents: true});
     };
 
-    const handleOnShowStaff = () => {
+    handleOnShowStaff(){
         // load staff
-        dispatch(loadStaff());
-        setShowingStudents(false);
-    };
+        this.props.dispatch(loadStaff());
+        
+        this.setState({showingStudents: false});
+    }
 
-    const handleOnAddFavorite = (favoriteId) => {
+    handleOnAddFavorite = (favoriteId) => {
         // add favorite id to list
-        dispatch(addFavorite(favoriteId));
+        this.props.dispatch(addFavorite(favoriteId));
     };
 
-    const handleOnRemoveCharacter = (newCharacterId) => {
-        dispatch(removeNewCharacter(newCharacterId));
+    handleOnRemoveCharacter = (newCharacterId) => {
+        this.props.dispatch(removeNewCharacter(newCharacterId));
     };
 
-    return (
-        <>
-            <StyledHeadingContainer>
-                <StyledContainer>
-                    {/* heading */}
-                    <StyledHeadingWrapper>
-                        <div className="d-flex justify-content-end">
+    render () {
+        const favorites = useFavorites(this.props.favoritesIds, this.props.students, this.props.staff, this.props.newCharacters);
+        
+        const filteredNewCharacters = useFilteredNewCharacters(this.props.newCharacters, this.state.showingStudents);
+        
+        const allCharacters = useAllCharacters(this.props.characters, filteredNewCharacters);
+
+        return (
+            <>
+                <StyledHeadingContainer>
+                    <StyledContainer>
+                        {/* heading */}
+                        <StyledHeadingWrapper>
+                            <div className="d-flex justify-content-end">
+                                <FavoritesBar
+                                    favorites={favorites}
+                                    onDeleteFavorite={this.handleOnDeleteFavorite}
+                                    onAddCharacter={this.handleOnAddCharacter}
+                                />
+                            </div>
+                        </StyledHeadingWrapper>
+    
+                        {/* logo */}
+                        <StyledLogoWrapper>
+                            <div className="d-flex justify-content-center">
+                                <StyledLogo src="images/logo.svg" alt="" />
+                            </div>
+                        </StyledLogoWrapper>
+    
+                        {/* filter label */}
+                        <StyledSelectFilterLabel>Selecciona tu filtro</StyledSelectFilterLabel>
+    
+                        {/* buttons */}
+                        <StyledButtonsWrapper>
+                            <div>
+                                <Button label={'Estudiantes'} onClick={this.handleOnShowStudents} />
+                            </div>
+    
+                            <div className="pe-1" />
+    
+                            <div>
+                                <Button label={'Staff'} onClick={this.handleOnShowStaff} />
+                            </div>
+                        </StyledButtonsWrapper>
+                    </StyledContainer>
+                </StyledHeadingContainer>
+    
+                {/* characters list */}
+                {allCharacters && allCharacters.length && (
+                    <StyledContainer>
+                        <StyledCharactersWrapper>
+                            {allCharacters.map((character, index) => (
+                                <CharacterCard
+                                    key={index}
+                                    character={character}
+                                    favoritesIds={this.props.favoritesIds}
+                                    onAddFavorite={this.handleOnAddFavorite}
+                                    onRemoveFavorite={this.handleOnDeleteFavorite}
+                                    onRemoveCharacter={this.handleOnRemoveCharacter}
+                                />
+                            ))}
+                        </StyledCharactersWrapper>
+                    </StyledContainer>
+                )}
+    
+                {/* footer */}
+                <StyledFooterContainer>
+                    <StyledContainer>
+                        <div className="d-flex justify-content-center">
                             <FavoritesBar
                                 favorites={favorites}
-                                onDeleteFavorite={handleOnDeleteFavorite}
-                                onAddCharacter={handleOnAddCharacter}
+                                onDeleteFavorite={this.handleOnDeleteFavorite}
+                                onAddCharacter={this.handleOnAddCharacter}
                             />
                         </div>
-                    </StyledHeadingWrapper>
-
-                    {/* logo */}
-                    <StyledLogoWrapper>
-                        <div className="d-flex justify-content-center">
-                            <StyledLogo src="images/logo.svg" alt="" />
-                        </div>
-                    </StyledLogoWrapper>
-
-                    {/* filter label */}
-                    <StyledSelectFilterLabel>Selecciona tu filtro</StyledSelectFilterLabel>
-
-                    {/* buttons */}
-                    <StyledButtonsWrapper>
-                        <div>
-                            <Button label={'Estudiantes'} onClick={handleOnShowStudents} />
-                        </div>
-
-                        <div className="pe-1" />
-
-                        <div>
-                            <Button label={'Staff'} onClick={handleOnShowStaff} />
-                        </div>
-                    </StyledButtonsWrapper>
-                </StyledContainer>
-            </StyledHeadingContainer>
-
-            {/* characters list */}
-            {allCharacters && allCharacters.length && (
-                <StyledContainer>
-                    <StyledCharactersWrapper>
-                        {allCharacters.map((character, index) => (
-                            <CharacterCard
-                                key={index}
-                                character={character}
-                                favoritesIds={favoritesIds}
-                                onAddFavorite={handleOnAddFavorite}
-                                onRemoveFavorite={handleOnDeleteFavorite}
-                                onRemoveCharacter={handleOnRemoveCharacter}
-                            />
-                        ))}
-                    </StyledCharactersWrapper>
-                </StyledContainer>
-            )}
-
-            {/* footer */}
-            <StyledFooterContainer>
-                <StyledContainer>
-                    <div className="d-flex justify-content-center">
-                        <FavoritesBar
-                            favorites={favorites}
-                            onDeleteFavorite={handleOnDeleteFavorite}
-                            onAddCharacter={handleOnAddCharacter}
-                        />
+                    </StyledContainer>
+                </StyledFooterContainer>
+    
+                {/* modal */}
+                <Modal showIf={this.state.showModalForm} onHide={() => this.setState({showModalForm: false})}>
+                    <div>
+                        <NewCharacterForm onCloseForm={() => this.setState({showModalForm: false})} />
                     </div>
-                </StyledContainer>
-            </StyledFooterContainer>
+                </Modal>
+            </>
+        );
+    }
+}
 
-            {/* modal */}
-            <Modal showIf={showModalForm} onHide={() => setShowModalForm(false)}>
-                <div>
-                    <NewCharacterForm onCloseForm={() => setShowModalForm(false)} />
-                </div>
-            </Modal>
-        </>
-    );
-};
+const mapStateToProps = state => ({
+    characters: state.characters.characters,
+    newCharacters: state.characters.newCharacters,
+    students: state.students.students,
+    staff: state.staff.staff,
+    favoritesIds: state.favorites.favorites
+});
 
-export default HomePage;
+export default connect(mapStateToProps)(HomePage);
