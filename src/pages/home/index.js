@@ -18,11 +18,11 @@ import {
     StyledSelectFilterLabel,
 } from './styled';
 import { loadNewCharacters, removeNewCharacter } from '../../store/actions/characters';
- 
+
 class HomePage extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        
+
         this.state = {
             showingStudents: true,
             showModalForm: false,
@@ -39,48 +39,48 @@ class HomePage extends Component {
     componentDidMount() {
         // load students on load
         this.props.dispatch(loadStudents());
-    
+
         // load new characters
         this.props.dispatch(loadNewCharacters());
     }
 
-    handleOnAddCharacter = () => {
-        this.setState({showModalForm: !this.state.showModalForm});
-    };
+    handleOnAddCharacter() {
+        this.setState({ showModalForm: !this.state.showModalForm });
+    }
 
-    handleOnDeleteFavorite = (favoriteId) => {
+    handleOnDeleteFavorite(favoriteId) {
         // remove favorite id from list
         this.props.dispatch(removeFavorite(favoriteId));
-    };
+    }
 
-    handleOnShowStudents = () => {
+    handleOnShowStudents() {
         // load students
         this.props.dispatch(loadStudents());
 
-        this.setState({showingStudents: true});
-    };
-
-    handleOnShowStaff(){
-        // load staff
-        this.props.dispatch(loadStaff());
-        
-        this.setState({showingStudents: false});
+        this.setState({ showingStudents: true });
     }
 
-    handleOnAddFavorite = (favoriteId) => {
+    handleOnShowStaff() {
+        // load staff
+        this.props.dispatch(loadStaff());
+
+        this.setState({ showingStudents: false });
+    }
+
+    handleOnAddFavorite(favoriteId) {
         // add favorite id to list
         this.props.dispatch(addFavorite(favoriteId));
-    };
+    }
 
-    handleOnRemoveCharacter = (newCharacterId) => {
+    handleOnRemoveCharacter(newCharacterId) {
         this.props.dispatch(removeNewCharacter(newCharacterId));
-    };
+    }
 
-    render () {
+    render() {
         const favorites = useFavorites(this.props.favoritesIds, this.props.students, this.props.staff, this.props.newCharacters);
-        
+
         const filteredNewCharacters = useFilteredNewCharacters(this.props.newCharacters, this.state.showingStudents);
-        
+
         const allCharacters = useAllCharacters(this.props.characters, filteredNewCharacters);
 
         return (
@@ -97,32 +97,32 @@ class HomePage extends Component {
                                 />
                             </div>
                         </StyledHeadingWrapper>
-    
+
                         {/* logo */}
                         <StyledLogoWrapper>
                             <div className="d-flex justify-content-center">
                                 <StyledLogo src="images/logo.svg" alt="" />
                             </div>
                         </StyledLogoWrapper>
-    
+
                         {/* filter label */}
                         <StyledSelectFilterLabel>Selecciona tu filtro</StyledSelectFilterLabel>
-    
+
                         {/* buttons */}
                         <StyledButtonsWrapper>
                             <div>
                                 <Button label={'Estudiantes'} onClick={this.handleOnShowStudents} />
                             </div>
-    
+
                             <div className="pe-1" />
-    
+
                             <div>
                                 <Button label={'Staff'} onClick={this.handleOnShowStaff} />
                             </div>
                         </StyledButtonsWrapper>
                     </StyledContainer>
                 </StyledHeadingContainer>
-    
+
                 {/* characters list */}
                 {allCharacters && allCharacters.length && (
                     <StyledContainer>
@@ -140,7 +140,7 @@ class HomePage extends Component {
                         </StyledCharactersWrapper>
                     </StyledContainer>
                 )}
-    
+
                 {/* footer */}
                 <StyledFooterContainer>
                     <StyledContainer>
@@ -153,11 +153,11 @@ class HomePage extends Component {
                         </div>
                     </StyledContainer>
                 </StyledFooterContainer>
-    
+
                 {/* modal */}
-                <Modal showIf={this.state.showModalForm} onHide={() => this.setState({showModalForm: false})}>
+                <Modal showIf={this.state.showModalForm} onHide={() => this.setState({ showModalForm: false })}>
                     <div>
-                        <NewCharacterForm onCloseForm={() => this.setState({showModalForm: false})} />
+                        <NewCharacterForm onCloseForm={() => this.setState({ showModalForm: false })} />
                     </div>
                 </Modal>
             </>
@@ -165,12 +165,12 @@ class HomePage extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     characters: state.characters.characters,
     newCharacters: state.characters.newCharacters,
     students: state.students.students,
     staff: state.staff.staff,
-    favoritesIds: state.favorites.favorites
+    favoritesIds: state.favorites.favorites,
 });
 
 export default connect(mapStateToProps)(HomePage);
